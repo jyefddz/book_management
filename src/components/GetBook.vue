@@ -20,7 +20,7 @@
                 <td>{{ item.publisher }}</td>
                 <td>
                     <a href="javascript:;" @click="delFn(item.id)">删除</a>
-                    <a href="javascript:;">详情</a>
+                    <a href="javascript:;" @click="detFn(item.id)">详情</a>
                 </td>
             </tr>
         </table>
@@ -74,8 +74,20 @@ export default {
             }).then((res) => {
                 console.log(res);
                 console.log(id);
-                const index = this.books.findIndex((ele) => ele.id == id)
-                this.books.splice(index, 1)
+                location.replace('http://localhost:8081/')
+            })
+        },
+        detFn(id) {
+            this.$axios({
+                url: '/api/getbooks',
+                params: {
+                    id: id
+                }
+            }).then((res) => {
+                const info = res.data.data && res.data.data[0];
+                alert(
+                    `作者：${info.author}; 出版社：${info.publisher}; 书名：${info.bookname}`
+                );
             })
         }
     }
